@@ -1,4 +1,4 @@
-# 🎓 Sistema de Escola de Cursos Livres
+# 🎓 Sistema de Escola de Cursos Livres.
 
 <p align="center">
 Sistema desenvolvido em <strong>Java</strong> utilizando o padrão arquitetural <strong>MVC (Model-View-Controller)</strong>, persistência de dados com <strong>JDBC</strong> e banco de dados <strong>PostgreSQL</strong>.
