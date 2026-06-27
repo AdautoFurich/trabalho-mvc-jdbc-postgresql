@@ -269,4 +269,3 @@ Durante o desenvolvimento deste projeto foram aplicados os seguintes conceitos:
 * Relacionamento entre Entidades
 
 ---
-Além de atender aos requisitos propostos pela disciplina, o sistema demonstra a aplicação prática de conceitos utilizados no desenvolvimento de sistemas corporativos, servindo como base para futuros projetos utilizando frameworks como Spring Boot e APIs REST.
