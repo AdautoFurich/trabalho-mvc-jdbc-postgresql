@@ -1,4 +1,4 @@
-# 🐾 Sistema de Clínica Veterinária
+# 🐾 Sistema de Clínica Veterinária.
 
 <p align="center">
 Sistema desenvolvido em <strong>Java</strong> utilizando o padrão <strong>MVC (Model-View-Controller)</strong>, persistência de dados com <strong>JDBC</strong> e banco de dados <strong>PostgreSQL</strong>.
