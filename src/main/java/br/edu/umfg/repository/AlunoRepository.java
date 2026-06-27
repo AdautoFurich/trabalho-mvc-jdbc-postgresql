@@ -1,6 +1,6 @@
 package br.edu.umfg.repository;
 
-import br.edu.umfg.model.Cliente;
+import br.edu.umfg.model.Aluno;
 import br.edu.umfg.util.Conexao;
 
 import java.sql.Connection;
@@ -11,54 +11,56 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClienteRepository {
+public class AlunoRepository {
 
-    public Cliente salvar(Cliente cliente) {
-        String sql = "INSERT INTO cliente (nome, telefone) VALUES (?, ?)";
+    public Aluno salvar(Aluno aluno) {
+        String sql = "INSERT INTO aluno (nome, email, telefone) VALUES (?, ?, ?)";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setString(1, cliente.getNome());
-            stmt.setString(2, cliente.getTelefone());
+            stmt.setString(1, aluno.getNome());
+            stmt.setString(2, aluno.getEmail());
+            stmt.setString(3, aluno.getTelefone());
             stmt.executeUpdate();
 
             try (ResultSet rs = stmt.getGeneratedKeys()) {
                 if (rs.next()) {
-                    cliente.setId(rs.getInt(1));
+                    aluno.setId(rs.getInt(1));
                 }
             }
 
-            return cliente;
+            return aluno;
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao salvar cliente.", e);
+            throw new RuntimeException("Erro ao salvar aluno.", e);
         }
     }
 
-    public List<Cliente> listar() {
-        List<Cliente> clientes = new ArrayList<>();
-        String sql = "SELECT * FROM cliente ORDER BY id";
+    public List<Aluno> listar() {
+        List<Aluno> alunos = new ArrayList<>();
+        String sql = "SELECT * FROM aluno ORDER BY id";
 
         try (Connection conn = Conexao.conectar();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                clientes.add(new Cliente(
+                alunos.add(new Aluno(
                         rs.getInt("id"),
                         rs.getString("nome"),
+                        rs.getString("email"),
                         rs.getString("telefone")
                 ));
             }
 
-            return clientes;
+            return alunos;
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar clientes.", e);
+            throw new RuntimeException("Erro ao listar alunos.", e);
         }
     }
 
-    public Cliente buscarPorId(int id) {
-        String sql = "SELECT * FROM cliente WHERE id = ?";
+    public Aluno buscarPorId(int id) {
+        String sql = "SELECT * FROM aluno WHERE id = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -67,9 +69,10 @@ public class ClienteRepository {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Cliente(
+                    return new Aluno(
                             rs.getInt("id"),
                             rs.getString("nome"),
+                            rs.getString("email"),
                             rs.getString("telefone")
                     );
                 }
@@ -77,31 +80,32 @@ public class ClienteRepository {
 
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar cliente por ID.", e);
+            throw new RuntimeException("Erro ao buscar aluno por ID.", e);
         }
     }
 
-    public void atualizar(Cliente cliente) {
-        String sql = "UPDATE cliente SET nome = ?, telefone = ? WHERE id = ?";
+    public void atualizar(Aluno aluno) {
+        String sql = "UPDATE aluno SET nome = ?, email = ?, telefone = ? WHERE id = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, cliente.getNome());
-            stmt.setString(2, cliente.getTelefone());
-            stmt.setInt(3, cliente.getId());
+            stmt.setString(1, aluno.getNome());
+            stmt.setString(2, aluno.getEmail());
+            stmt.setString(3, aluno.getTelefone());
+            stmt.setInt(4, aluno.getId());
 
             int linhasAfetadas = stmt.executeUpdate();
             if (linhasAfetadas == 0) {
-                throw new RuntimeException("Nenhum cliente encontrado para atualizar.");
+                throw new RuntimeException("Nenhum aluno encontrado para atualizar.");
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar cliente.", e);
+            throw new RuntimeException("Erro ao atualizar aluno.", e);
         }
     }
 
     public void excluir(int id) {
-        String sql = "DELETE FROM cliente WHERE id = ?";
+        String sql = "DELETE FROM aluno WHERE id = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -110,10 +114,10 @@ public class ClienteRepository {
 
             int linhasAfetadas = stmt.executeUpdate();
             if (linhasAfetadas == 0) {
-                throw new RuntimeException("Nenhum cliente encontrado para excluir.");
+                throw new RuntimeException("Nenhum aluno encontrado para excluir.");
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao excluir cliente.", e);
+            throw new RuntimeException("Erro ao excluir aluno.", e);
         }
     }
 }

@@ -1,13 +1,14 @@
 package br.edu.umfg;
 
-import br.edu.umfg.controller.ClienteController;
-import br.edu.umfg.controller.OrdemServicoController;
-import br.edu.umfg.controller.VeiculoController;
-import br.edu.umfg.model.Cliente;
-import br.edu.umfg.model.OrdemServico;
-import br.edu.umfg.model.Veiculo;
+import br.edu.umfg.controller.AlunoController;
+import br.edu.umfg.controller.CursoController;
+import br.edu.umfg.controller.MatriculaController;
+import br.edu.umfg.model.Aluno;
+import br.edu.umfg.model.Curso;
+import br.edu.umfg.model.Matricula;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Main {
@@ -15,117 +16,135 @@ public class Main {
     private static final String LINHA = "==================================================";
 
     public static void main(String[] args) {
-        ClienteController clienteController = new ClienteController();
-        VeiculoController veiculoController = new VeiculoController();
-        OrdemServicoController ordemServicoController = new OrdemServicoController();
+        AlunoController alunoController = new AlunoController();
+        CursoController cursoController = new CursoController();
+        MatriculaController matriculaController = new MatriculaController();
 
         System.out.println(LINHA);
-        System.out.println("CENARIO 2 - OFICINA MECANICA");
-        System.out.println("Simulacao do fluxo: cliente -> veiculo -> ordem de servico");
+        System.out.println("CENARIO 3 - ESCOLA DE CURSOS LIVRES");
+        System.out.println("Simulacao do fluxo: aluno -> curso -> matricula");
         System.out.println(LINHA);
 
-        Cliente cliente = cadastrarCliente(clienteController);
-        Veiculo veiculo = cadastrarVeiculo(veiculoController, cliente);
-        OrdemServico ordemServico = abrirOrdemServico(ordemServicoController, veiculo);
+        Aluno aluno = cadastrarAluno(alunoController);
+        Curso curso = cadastrarCurso(cursoController);
+        Matricula matricula = realizarMatricula(matriculaController, aluno, curso);
+        testarMatriculaDuplicada(matriculaController, aluno, curso);
 
         System.out.println("\nRESUMO DOS REGISTROS GERADOS");
         System.out.println(LINHA);
-        System.out.println("Cliente: " + cliente.getId() + " - " + cliente.getNome());
-        System.out.println("Veiculo: " + veiculo.getId() + " - " + veiculo.getModelo());
-        System.out.println("Ordem de servico: " + ordemServico.getId() + " - " + ordemServico.getDescricao());
+        System.out.println("Aluno: " + aluno.getId() + " - " + aluno.getNome());
+        System.out.println("Curso: " + curso.getId() + " - " + curso.getNome());
+        System.out.println("Matricula: " + matricula.getId() + " - " + curso.getNome());
 
-        System.out.println("\nVEICULOS DO CLIENTE");
+        System.out.println("\nMATRICULAS DO ALUNO");
         System.out.println(LINHA);
-        exibirVeiculos(veiculoController.listarPorCliente(cliente.getId()));
+        exibirMatriculas(matriculaController.listarPorAluno(aluno.getId()));
 
-        System.out.println("\nHISTORICO DE ORDENS DE SERVICO DO VEICULO");
+        System.out.println("\nALUNOS MATRICULADOS NO CURSO");
         System.out.println(LINHA);
-        exibirOrdensServico(ordemServicoController.listarPorVeiculo(veiculo.getId()));
+        exibirMatriculas(matriculaController.listarPorCurso(curso.getId()));
 
-        System.out.println("\nLISTAGEM GERAL DE CLIENTES");
+        System.out.println("\nLISTAGEM GERAL DE ALUNOS");
         System.out.println(LINHA);
-        exibirClientes(clienteController.listar());
+        exibirAlunos(alunoController.listar());
 
-        System.out.println("\nLISTAGEM GERAL DE VEICULOS");
+        System.out.println("\nLISTAGEM GERAL DE CURSOS");
         System.out.println(LINHA);
-        exibirVeiculos(veiculoController.listar());
+        exibirCursos(cursoController.listar());
 
-        System.out.println("\nLISTAGEM GERAL DE ORDENS DE SERVICO");
+        System.out.println("\nLISTAGEM GERAL DE MATRICULAS");
         System.out.println(LINHA);
-        exibirOrdensServico(ordemServicoController.listar());
+        exibirMatriculas(matriculaController.listar());
 
         System.out.println("\nExecucao finalizada.");
     }
 
-    private static Cliente cadastrarCliente(ClienteController clienteController) {
-        System.out.println("\n1. Cadastro do cliente");
-        Cliente cliente = new Cliente("Adauto Furich", "(44) 99772-0693");
-        return clienteController.salvar(cliente);
+    private static Aluno cadastrarAluno(AlunoController alunoController) {
+        System.out.println("\n1. Cadastro do aluno");
+        Aluno aluno = new Aluno("Adauto Furich", "adauto@email.com", "(44) 99772-0693");
+        return alunoController.salvar(aluno);
     }
 
-    private static Veiculo cadastrarVeiculo(VeiculoController veiculoController, Cliente cliente) {
-        System.out.println("\n2. Cadastro do veiculo vinculado ao cliente");
-        Veiculo veiculo = new Veiculo("ABC1D23", "Honda Civic", 2018, cliente.getId());
-        return veiculoController.salvar(veiculo);
+    private static Curso cadastrarCurso(CursoController cursoController) {
+        System.out.println("\n2. Cadastro do curso");
+        Curso curso = new Curso("Java Web", "Curso introdutorio de Java com JDBC", 40, 1, 1);
+        return cursoController.salvar(curso);
     }
 
-    private static OrdemServico abrirOrdemServico(OrdemServicoController ordemServicoController, Veiculo veiculo) {
-        System.out.println("\n3. Abertura da ordem de servico para o veiculo");
-        OrdemServico ordemServico = new OrdemServico(
-                veiculo.getId(),
-                "Troca de pastilhas de freio",
-                new BigDecimal("350.00"),
-                "ABERTA"
+    private static Matricula realizarMatricula(MatriculaController matriculaController, Aluno aluno, Curso curso) {
+        System.out.println("\n3. Registro da matricula do aluno no curso");
+        Matricula matricula = new Matricula(
+                aluno.getId(),
+                curso.getId(),
+                LocalDate.now(),
+                new BigDecimal("499.90")
         );
-        return ordemServicoController.salvar(ordemServico);
+        return matriculaController.salvar(matricula);
     }
 
-    private static void exibirClientes(List<Cliente> clientes) {
-        if (clientes.isEmpty()) {
-            System.out.println("Nenhum cliente encontrado.");
+    private static void testarMatriculaDuplicada(MatriculaController matriculaController, Aluno aluno, Curso curso) {
+        System.out.println("\n4. Teste de matricula invalida duplicada");
+
+        try {
+            matriculaController.salvar(new Matricula(
+                    aluno.getId(),
+                    curso.getId(),
+                    LocalDate.now(),
+                    new BigDecimal("499.90")
+            ));
+        } catch (IllegalArgumentException e) {
+            System.out.println("Regra validada com sucesso: " + e.getMessage());
+        }
+    }
+
+    private static void exibirAlunos(List<Aluno> alunos) {
+        if (alunos.isEmpty()) {
+            System.out.println("Nenhum aluno encontrado.");
             return;
         }
 
-        for (Cliente cliente : clientes) {
+        for (Aluno aluno : alunos) {
             System.out.println(
-                    "ID: " + cliente.getId()
-                            + " | Nome: " + cliente.getNome()
-                            + " | Telefone: " + cliente.getTelefone()
+                    "ID: " + aluno.getId()
+                            + " | Nome: " + aluno.getNome()
+                            + " | Email: " + aluno.getEmail()
+                            + " | Telefone: " + aluno.getTelefone()
             );
         }
     }
 
-    private static void exibirVeiculos(List<Veiculo> veiculos) {
-        if (veiculos.isEmpty()) {
-            System.out.println("Nenhum veiculo encontrado.");
+    private static void exibirCursos(List<Curso> cursos) {
+        if (cursos.isEmpty()) {
+            System.out.println("Nenhum curso encontrado.");
             return;
         }
 
-        for (Veiculo veiculo : veiculos) {
+        for (Curso curso : cursos) {
             System.out.println(
-                    "ID: " + veiculo.getId()
-                            + " | Placa: " + veiculo.getPlaca()
-                            + " | Modelo: " + veiculo.getModelo()
-                            + " | Ano: " + veiculo.getAno()
-                            + " | ID Cliente: " + veiculo.getIdCliente()
-                            + " | Cliente: " + veiculo.getNomeCliente()
+                    "ID: " + curso.getId()
+                            + " | Nome: " + curso.getNome()
+                            + " | Carga Horaria: " + curso.getCargaHoraria()
+                            + " | Vagas Totais: " + curso.getVagasTotais()
+                            + " | Vagas Disponiveis: " + curso.getVagasDisponiveis()
             );
         }
     }
 
-    private static void exibirOrdensServico(List<OrdemServico> ordensServico) {
-        if (ordensServico.isEmpty()) {
-            System.out.println("Nenhuma ordem de servico encontrada.");
+    private static void exibirMatriculas(List<Matricula> matriculas) {
+        if (matriculas.isEmpty()) {
+            System.out.println("Nenhuma matricula encontrada.");
             return;
         }
 
-        for (OrdemServico ordemServico : ordensServico) {
+        for (Matricula matricula : matriculas) {
             System.out.println(
-                    "ID: " + ordemServico.getId()
-                            + " | ID Veiculo: " + ordemServico.getIdVeiculo()
-                            + " | Descricao: " + ordemServico.getDescricao()
-                            + " | Valor: R$ " + ordemServico.getValor()
-                            + " | Status: " + ordemServico.getStatus()
+                    "ID: " + matricula.getId()
+                            + " | ID Aluno: " + matricula.getIdAluno()
+                            + " | Aluno: " + matricula.getNomeAluno()
+                            + " | ID Curso: " + matricula.getIdCurso()
+                            + " | Curso: " + matricula.getNomeCurso()
+                            + " | Data: " + matricula.getDataMatricula()
+                            + " | Valor: R$ " + matricula.getValor()
             );
         }
     }
