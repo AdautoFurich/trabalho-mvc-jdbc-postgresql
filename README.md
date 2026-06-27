@@ -120,9 +120,3 @@ A classe `Main` executa diretamente a demonstração completa do cenário 1, sem
 4. lista os animais do tutor;
 5. lista o histórico de consultas do animal;
 6. exibe as listagens gerais das entidades.
-
-## Observações para entrega
-
-- Criar ou usar a branch `cenario1` no repositório GitHub.
-- Preencher os nomes e RAs da equipe nesta documentação.
-- Garantir que o PostgreSQL local tenha o banco `clinica_veterinaria` criado antes da execução.
