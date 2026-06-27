@@ -1,25 +1,22 @@
 package br.edu.umfg.model;
 
-public class Tutor {
+public class Cliente {
 
     private int id;
     private String nome;
-    private String endereco;
     private String telefone;
 
-    public Tutor() {
+    public Cliente() {
     }
 
-    public Tutor(int id, String nome, String endereco, String telefone) {
+    public Cliente(int id, String nome, String telefone) {
         this.id = id;
         this.nome = nome;
-        this.endereco = endereco;
         this.telefone = telefone;
     }
 
-    public Tutor(String nome, String endereco, String telefone) {
+    public Cliente(String nome, String telefone) {
         this.nome = nome;
-        this.endereco = endereco;
         this.telefone = telefone;
     }
 
@@ -31,7 +28,6 @@ public class Tutor {
         this.id = id;
     }
 
-
     public String getNome() {
         return nome;
     }
@@ -39,16 +35,6 @@ public class Tutor {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
 
     public String getTelefone() {
         return telefone;

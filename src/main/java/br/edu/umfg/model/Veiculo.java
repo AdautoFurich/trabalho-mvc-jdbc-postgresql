@@ -1,0 +1,77 @@
+package br.edu.umfg.model;
+
+public class Veiculo {
+
+    private int id;
+    private String placa;
+    private String modelo;
+    private int ano;
+    private int idCliente;
+    private String nomeCliente;
+
+    public Veiculo() {
+    }
+
+    public Veiculo(int id, String placa, String modelo, int ano, int idCliente) {
+        this.id = id;
+        this.placa = placa;
+        this.modelo = modelo;
+        this.ano = ano;
+        this.idCliente = idCliente;
+    }
+
+    public Veiculo(String placa, String modelo, int ano, int idCliente) {
+        this.placa = placa;
+        this.modelo = modelo;
+        this.ano = ano;
+        this.idCliente = idCliente;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+}

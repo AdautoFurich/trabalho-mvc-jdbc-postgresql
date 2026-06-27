@@ -1,14 +1,13 @@
 package br.edu.umfg;
 
-import br.edu.umfg.controller.AnimalController;
-import br.edu.umfg.controller.ConsultaController;
-import br.edu.umfg.controller.TutorController;
-import br.edu.umfg.model.Animal;
-import br.edu.umfg.model.Consulta;
-import br.edu.umfg.model.Tutor;
+import br.edu.umfg.controller.ClienteController;
+import br.edu.umfg.controller.OrdemServicoController;
+import br.edu.umfg.controller.VeiculoController;
+import br.edu.umfg.model.Cliente;
+import br.edu.umfg.model.OrdemServico;
+import br.edu.umfg.model.Veiculo;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 public class Main {
@@ -16,118 +15,117 @@ public class Main {
     private static final String LINHA = "==================================================";
 
     public static void main(String[] args) {
-        TutorController tutorController = new TutorController();
-        AnimalController animalController = new AnimalController();
-        ConsultaController consultaController = new ConsultaController();
+        ClienteController clienteController = new ClienteController();
+        VeiculoController veiculoController = new VeiculoController();
+        OrdemServicoController ordemServicoController = new OrdemServicoController();
 
         System.out.println(LINHA);
-        System.out.println("CENARIO 1 - CLINICA VETERINARIA");
-        System.out.println("Simulacao do fluxo: tutor -> animal -> consulta");
+        System.out.println("CENARIO 2 - OFICINA MECANICA");
+        System.out.println("Simulacao do fluxo: cliente -> veiculo -> ordem de servico");
         System.out.println(LINHA);
 
-        Tutor tutor = cadastrarTutor(tutorController);
-        Animal animal = cadastrarAnimal(animalController, tutor);
-        Consulta consulta = registrarConsulta(consultaController, animal);
+        Cliente cliente = cadastrarCliente(clienteController);
+        Veiculo veiculo = cadastrarVeiculo(veiculoController, cliente);
+        OrdemServico ordemServico = abrirOrdemServico(ordemServicoController, veiculo);
 
         System.out.println("\nRESUMO DOS REGISTROS GERADOS");
         System.out.println(LINHA);
-        System.out.println("Tutor: " + tutor.getId() + " - " + tutor.getNome());
-        System.out.println("Animal: " + animal.getId() + " - " + animal.getNome());
-        System.out.println("Consulta: " + consulta.getId() + " - " + consulta.getMotivo());
+        System.out.println("Cliente: " + cliente.getId() + " - " + cliente.getNome());
+        System.out.println("Veiculo: " + veiculo.getId() + " - " + veiculo.getModelo());
+        System.out.println("Ordem de servico: " + ordemServico.getId() + " - " + ordemServico.getDescricao());
 
-        System.out.println("\nANIMAIS DO TUTOR");
+        System.out.println("\nVEICULOS DO CLIENTE");
         System.out.println(LINHA);
-        exibirAnimais(animalController.listarPorTutor(tutor.getId()));
+        exibirVeiculos(veiculoController.listarPorCliente(cliente.getId()));
 
-        System.out.println("\nHISTORICO DE CONSULTAS DO ANIMAL");
+        System.out.println("\nHISTORICO DE ORDENS DE SERVICO DO VEICULO");
         System.out.println(LINHA);
-        exibirConsultas(consultaController.listarPorAnimal(animal.getId()));
+        exibirOrdensServico(ordemServicoController.listarPorVeiculo(veiculo.getId()));
 
-        System.out.println("\nLISTAGEM GERAL DE TUTORES");
+        System.out.println("\nLISTAGEM GERAL DE CLIENTES");
         System.out.println(LINHA);
-        exibirTutores(tutorController.listar());
+        exibirClientes(clienteController.listar());
 
-        System.out.println("\nLISTAGEM GERAL DE ANIMAIS");
+        System.out.println("\nLISTAGEM GERAL DE VEICULOS");
         System.out.println(LINHA);
-        exibirAnimais(animalController.listar());
+        exibirVeiculos(veiculoController.listar());
 
-        System.out.println("\nLISTAGEM GERAL DE CONSULTAS");
+        System.out.println("\nLISTAGEM GERAL DE ORDENS DE SERVICO");
         System.out.println(LINHA);
-        exibirConsultas(consultaController.listar());
+        exibirOrdensServico(ordemServicoController.listar());
 
         System.out.println("\nExecucao finalizada.");
     }
 
-    private static Tutor cadastrarTutor(TutorController tutorController) {
-        System.out.println("\n1. Cadastro do tutor");
-        Tutor tutor = new Tutor("Marina Lopes", "Rua das Acacias, 150", "(44) 99999-0001");
-        return tutorController.salvar(tutor);
+    private static Cliente cadastrarCliente(ClienteController clienteController) {
+        System.out.println("\n1. Cadastro do cliente");
+        Cliente cliente = new Cliente("Adauto Furich", "(44) 99772-0693");
+        return clienteController.salvar(cliente);
     }
 
-    private static Animal cadastrarAnimal(AnimalController animalController, Tutor tutor) {
-        System.out.println("\n2. Cadastro do animal vinculado ao tutor");
-        Animal animal = new Animal("Thor", "Cachorro", "Labrador", tutor.getId());
-        return animalController.salvar(animal);
+    private static Veiculo cadastrarVeiculo(VeiculoController veiculoController, Cliente cliente) {
+        System.out.println("\n2. Cadastro do veiculo vinculado ao cliente");
+        Veiculo veiculo = new Veiculo("ABC1D23", "Honda Civic", 2018, cliente.getId());
+        return veiculoController.salvar(veiculo);
     }
 
-    private static Consulta registrarConsulta(ConsultaController consultaController, Animal animal) {
-        System.out.println("\n3. Registro da consulta vinculada ao animal");
-        Consulta consulta = new Consulta(
-                animal.getId(),
-                LocalDate.now(),
-                "Vacinacao anual",
-                new BigDecimal("120.00")
+    private static OrdemServico abrirOrdemServico(OrdemServicoController ordemServicoController, Veiculo veiculo) {
+        System.out.println("\n3. Abertura da ordem de servico para o veiculo");
+        OrdemServico ordemServico = new OrdemServico(
+                veiculo.getId(),
+                "Troca de pastilhas de freio",
+                new BigDecimal("350.00"),
+                "ABERTA"
         );
-        return consultaController.salvar(consulta);
+        return ordemServicoController.salvar(ordemServico);
     }
 
-    private static void exibirTutores(List<Tutor> tutores) {
-        if (tutores.isEmpty()) {
-            System.out.println("Nenhum tutor encontrado.");
+    private static void exibirClientes(List<Cliente> clientes) {
+        if (clientes.isEmpty()) {
+            System.out.println("Nenhum cliente encontrado.");
             return;
         }
 
-        for (Tutor tutor : tutores) {
+        for (Cliente cliente : clientes) {
             System.out.println(
-                    "ID: " + tutor.getId()
-                            + " | Nome: " + tutor.getNome()
-                            + " | Endereco: " + tutor.getEndereco()
-                            + " | Telefone: " + tutor.getTelefone()
+                    "ID: " + cliente.getId()
+                            + " | Nome: " + cliente.getNome()
+                            + " | Telefone: " + cliente.getTelefone()
             );
         }
     }
 
-    private static void exibirAnimais(List<Animal> animais) {
-        if (animais.isEmpty()) {
-            System.out.println("Nenhum animal encontrado.");
+    private static void exibirVeiculos(List<Veiculo> veiculos) {
+        if (veiculos.isEmpty()) {
+            System.out.println("Nenhum veiculo encontrado.");
             return;
         }
 
-        for (Animal animal : animais) {
+        for (Veiculo veiculo : veiculos) {
             System.out.println(
-                    "ID: " + animal.getId()
-                            + " | Nome: " + animal.getNome()
-                            + " | Especie: " + animal.getEspecie()
-                            + " | Raca: " + animal.getRaca()
-                            + " | ID Tutor: " + animal.getIdTutor()
-                            + " | Tutor: " + animal.getNomeTutor()
+                    "ID: " + veiculo.getId()
+                            + " | Placa: " + veiculo.getPlaca()
+                            + " | Modelo: " + veiculo.getModelo()
+                            + " | Ano: " + veiculo.getAno()
+                            + " | ID Cliente: " + veiculo.getIdCliente()
+                            + " | Cliente: " + veiculo.getNomeCliente()
             );
         }
     }
 
-    private static void exibirConsultas(List<Consulta> consultas) {
-        if (consultas.isEmpty()) {
-            System.out.println("Nenhuma consulta encontrada.");
+    private static void exibirOrdensServico(List<OrdemServico> ordensServico) {
+        if (ordensServico.isEmpty()) {
+            System.out.println("Nenhuma ordem de servico encontrada.");
             return;
         }
 
-        for (Consulta consulta : consultas) {
+        for (OrdemServico ordemServico : ordensServico) {
             System.out.println(
-                    "ID: " + consulta.getId()
-                            + " | ID Animal: " + consulta.getIdAnimal()
-                            + " | Data: " + consulta.getData()
-                            + " | Motivo: " + consulta.getMotivo()
-                            + " | Valor: R$ " + consulta.getValor()
+                    "ID: " + ordemServico.getId()
+                            + " | ID Veiculo: " + ordemServico.getIdVeiculo()
+                            + " | Descricao: " + ordemServico.getDescricao()
+                            + " | Valor: R$ " + ordemServico.getValor()
+                            + " | Status: " + ordemServico.getStatus()
             );
         }
     }
