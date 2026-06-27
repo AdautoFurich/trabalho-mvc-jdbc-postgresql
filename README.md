@@ -233,7 +233,3 @@ Execute a classe `Main.java`.
 * Persistência de Dados
 
 ---
-
-# ⭐ Considerações
-
-Este projeto foi desenvolvido para consolidar conhecimentos em desenvolvimento Java, arquitetura MVC e persistência de dados com JDBC e PostgreSQL, aplicando boas práticas de organização e separação de responsabilidades.
