@@ -269,9 +269,4 @@ Durante o desenvolvimento deste projeto foram aplicados os seguintes conceitos:
 * Relacionamento entre Entidades
 
 ---
-
-# ⭐ Considerações
-
-Este projeto foi desenvolvido com fins acadêmicos para consolidar os conhecimentos adquiridos em Programação Orientada a Objetos, arquitetura MVC e persistência de dados utilizando JDBC e PostgreSQL.
-
 Além de atender aos requisitos propostos pela disciplina, o sistema demonstra a aplicação prática de conceitos utilizados no desenvolvimento de sistemas corporativos, servindo como base para futuros projetos utilizando frameworks como Spring Boot e APIs REST.
