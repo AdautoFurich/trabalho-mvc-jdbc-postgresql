@@ -2,12 +2,6 @@
 
 Projeto Java com arquitetura MVC, persistência via JDBC e banco PostgreSQL para o cenário 3 do trabalho.
 
-## Integrantes
-
-- Adauto Furich - RA: 2186
-- Gabriel Barbosa - RA: 2106
-- Francisco Jambers - RA: 2043
-
 ## Objetivo do cenário
 
 Controlar alunos, cursos e matrículas de uma escola de cursos livres, permitindo:
