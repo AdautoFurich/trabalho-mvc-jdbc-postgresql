@@ -2,12 +2,6 @@
 
 Projeto Java com arquitetura MVC, persistência via JDBC e banco PostgreSQL para o cenário 1 do trabalho.
 
-## Integrantes
-
-- Adauto Furich - RA: 2186
-- Gabriel Barbosa - RA: 2106
-- Francisco Jambers - RA: 2043
-
 ## Objetivo do cenário
 
 Controlar tutores, animais e consultas de uma clínica veterinária, permitindo:
