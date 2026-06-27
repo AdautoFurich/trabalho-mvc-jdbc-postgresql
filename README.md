@@ -2,12 +2,6 @@
 
 Projeto Java com arquitetura MVC, persistência via JDBC e banco PostgreSQL para o cenário 2 do trabalho.
 
-## Integrantes
-
-- Adauto Furich - RA: 2186
-- Gabriel Barbosa - RA: 2106
-- Francisco Jambers - RA: 2043
-
 ## Objetivo do cenário
 
 Controlar clientes, veículos e ordens de serviço de uma oficina mecânica, permitindo:
